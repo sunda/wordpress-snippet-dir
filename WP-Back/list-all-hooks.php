@@ -1,34 +1,18 @@
 <?php
 
-function list_hooked_functions($tag=false)
-{
-    global $wp_filter;
-    if ($tag) {
-        $hook[$tag]=$wp_filter[$tag];
-        if (! is_array($hook[$tag])) {
-            trigger_error("Nothing found for " . $tag . " hook", E_USER_WARNING);
-            return;
-        }
-    } else {
-        $hook=$wp_filter;
-        ksort($hook);
+$debug_tags = array();
+add_action('all', function ($tag) {
+    global $debug_tags;
+    if (in_array($tag, $debug_tags)) {
+        return;
     }
-    echo '<pre>';
-    foreach ($hook as $tag => $priority) {
-        echo "<br />&gt;&gt;&gt;&gt;&gt;<strong>" 
-            . $tag 
-            . "</strong><br />";
-        ksort($priority);
-        foreach ($priority as $priority => $function) {
-            echo $priority;
-            foreach ($function as $name => $properties) {
-                echo $name . "<br />";
-            }
-        }
-    }
-    echo '</pre>';
-}
-   
-   list_hooked_functions();
+    echo "<pre>" . $tag . "</pre>";
+    $debug_tags[] = $tag;
+});
 
-?>
+add_action('woocommerce_blocks_payment_method_type_registration', 'test_hook');
+
+function test_hook()
+{
+    echo "<h1>" . current_action() . "</h1>";
+}
