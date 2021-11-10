@@ -1,10 +1,12 @@
 <?php
-/** Change keywords to links */
+/** Change keywords to links */ 
 
 function link_words($text)
 {
     $replace = [
         'seo' => '<a href="https://itzen.hu/keresooptimalizalas-elmelete/">Keresőoptimalizálás</a>',
+        'keresőoptimalizálás' => '<a href="https://itzen.hu/keresooptimalizalas-elmelete/">Keresőoptimalizálás</a>',
+
     ];
 
     $text = str_replace(array_keys($replace), $replace, $text);
